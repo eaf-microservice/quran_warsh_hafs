@@ -36,7 +36,7 @@ _(Placeholder for screenshots - Add screenshots here)_
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/eaf-microservice/quran_warsh_hafs.git
     cd quran_warsh_hafs
     ```
 
