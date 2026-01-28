@@ -1,0 +1,37 @@
+name: quran_karim_offline
+description: "Quran karim offline for the muslim to read the holy book any time wihtout coonection"
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.1+1
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.2.2
+  wakelock_plus: ^1.2.5
+  fluttertoast: ^9.0.0
+  share_plus: ^12.0.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: "^0.14.4"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/
+    - assets/images/warsh/
+    - assets/images/hafs/
+    - assets/images/khatem/
