@@ -3,14 +3,14 @@ class Rub3eInfo {
   final int rubNumber; // 1..240
   final String positionDepart; //"1:1"
   final String positionFin; //"2:141"
-  final int page; // 1-604
+  final int pageStart; // 1-604
   final String type; //juz, hizb, rub3e, tomon
 
   Rub3eInfo(
     this.rubNumber,
     this.positionDepart,
     this.positionFin,
-    this.page,
+    this.pageStart,
     this.type,
   );
 }
@@ -21,9 +21,9 @@ class HizbInfo {
   final int hizbNumber; // 1..60
   final String positionDepart; //"1:1"
   final String positionFin; //"2:141"
-  final int page; // 1-604
+  final int pageStart; // 1-604
 
-  HizbInfo(this.hizbNumber, this.positionDepart, this.positionFin, this.page);
+  HizbInfo(this.hizbNumber, this.positionDepart, this.positionFin, this.pageStart);
 }
 
 // Minimal Juz metadata (index, positionDepart, positionFin, page)
@@ -32,13 +32,13 @@ class JuzInfo {
   final int juzNumber; // 1..30
   final String positionDepart; //"1:1"
   final String positionFin; //"2:141"
-  final int page; // 1-604
+  final int pageStart; // 1-604
 
   const JuzInfo(
     this.juzNumber,
     this.positionDepart,
     this.positionFin,
-    this.page,
+    this.pageStart,
   );
 }
 
@@ -449,21 +449,21 @@ List<JuzInfo> quranJuzData = [
 
 JuzInfo getJuzForPage(int page) {
   return quranJuzData.lastWhere(
-    (e) => e.page <= page,
+    (e) => e.pageStart <= page,
     orElse: () => quranJuzData.first,
   );
 }
 
 HizbInfo getHizbForPage(int page) {
   return quranHizbData.lastWhere(
-    (e) => e.page <= page,
+    (e) => e.pageStart <= page,
     orElse: () => quranHizbData.first,
   );
 }
 
 Rub3eInfo getRubForPage(int page) {
   return quranRub3eData.lastWhere(
-    (e) => e.page <= page,
+    (e) => e.pageStart <= page,
     orElse: () => quranRub3eData.first,
   );
 }

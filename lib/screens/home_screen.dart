@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return AboutMe(
       applicationName: 'القرآن الكريم برواية ورش وحفص',
       logo: Image.asset('assets/icon/icon.png', width: 100, height: 100),
-      version: '1.0.1',
+      version: '1.0.2',
       description:
           'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والوضع الليلي.',
     ).showCustomAbout(context);

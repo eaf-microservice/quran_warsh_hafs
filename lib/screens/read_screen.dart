@@ -106,7 +106,26 @@ class _ReaderScreenState extends State<ReaderScreen>
       orElse: () => SajdaInfo(0, "", 0, ""),
     );
     if (sajdah.page == _currentPage) {
-      return showToast(" سجدة في هذه الصفحة "); //${sajdah.sajdahType}
+      showToast(
+        " سجدة في هذه الصفحة ",
+        backgroundColor: Colors.orange.shade700,
+      ); //${sajdah.sajdahType}
+    }
+
+    final juz = getJuzForPage(_currentPage);
+    if (juz.pageStart == _currentPage) {
+      showToast(
+        "بداية الجزء ${juz.juzNumber}",
+        backgroundColor: Colors.teal.shade700,
+      );
+    }
+
+    final hizb = getHizbForPage(_currentPage);
+    if (hizb.pageStart == _currentPage) {
+      showToast(
+        "بداية الحزب ${hizb.hizbNumber}",
+        backgroundColor: Colors.blue.shade700,
+      );
     }
   }
 
