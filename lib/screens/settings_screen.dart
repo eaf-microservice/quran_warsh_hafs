@@ -340,7 +340,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('شارك التطبيق'),
+                    Text('شارك التطبيق - صدقة جارية'),
                     SizedBox(width: 8),
                     Icon(Icons.share),
                   ],

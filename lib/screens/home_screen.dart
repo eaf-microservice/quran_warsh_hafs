@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/quran_devision.dart';
 import '../utils/quran_surahs.dart';
 import '../widgets/about.dart' show AboutMe;
 import 'read_screen.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _night = false;
   bool _tajweed = false;
   String _query = '';
+  bool _showSurahs = true;
 
   @override
   void initState() {
@@ -70,9 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _showAboutMe() {
     return AboutMe(
-      applicationName: 'القرآن الكريم برواية ورش وحفص',
+      applicationName: 'القرآن الكريم',
       logo: Image.asset('assets/icon/icon.png', width: 100, height: 100),
-      version: '1.0.2',
+      version: '1.0.4',
       description:
           'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والوضع الليلي.',
     ).showCustomAbout(context);
@@ -127,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
       themeMode: _night ? ThemeMode.dark : ThemeMode.light,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('القرآن الكريم برواية ورش وحفص'),
+          title: const Text('القرآن الكريم'),
           actions: [
             IconButton(
               tooltip: 'الإعدادات',
@@ -158,7 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: TextField(
                       textAlign: TextAlign.center,
-
                       decoration: InputDecoration(
                         hintText: 'ابحث عن السور (عربي/انجليزي أو رقم السورة)',
                         prefixIcon: const Icon(Icons.search),
@@ -199,54 +200,109 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  //should be white color in dark mode
-                  'الفهرس',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: _night ? Colors.white : Colors.black,
+              child: SegmentedButton<bool>(
+                segments: const [
+                  ButtonSegment<bool>(
+                    value: true,
+                    label: Text('فهرس السور'),
+                    icon: Icon(Icons.list),
                   ),
-                ),
+                  ButtonSegment<bool>(
+                    value: false,
+                    label: Text('فهرس الأجزاء'),
+                    icon: Icon(Icons.grid_view_outlined),
+                  ),
+                ],
+                selected: {_showSurahs},
+                onSelectionChanged: (Set<bool> newSelection) {
+                  setState(() {
+                    _showSurahs = newSelection.first;
+                  });
+                },
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _filteredSurahs.length,
-                itemBuilder: (ctx, i) {
-                  final s = _filteredSurahs[i];
-                  return Card(
-                    child: ListTile(
-                      leading: IconButton(
-                        tooltip: 'افتح',
-                        icon: const Icon(Icons.menu_book_outlined),
-                        onPressed: () => _openReader(initialPage: s.startPage),
-                      ),
-                      title: Text(
-                        s.arabic,
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      subtitle: Text(
-                        '${s.english} • p${s.startPage}-${s.endPage}',
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      trailing: CircleAvatar(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primary.withValues(alpha: 0.15),
-                        // ).colorScheme.primary.withOpacity(0.15),
-                        child: Text(
-                          '${s.index}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      onTap: () => _openReader(initialPage: s.startPage),
+              child: _showSurahs
+                  ? ListView.builder(
+                      itemCount: _filteredSurahs.length,
+                      itemBuilder: (ctx, i) {
+                        final s = _filteredSurahs[i];
+                        return Card(
+                          child: ListTile(
+                            leading: IconButton(
+                              tooltip: 'افتح',
+                              icon: const Icon(Icons.menu_book_outlined),
+                              onPressed: () =>
+                                  _openReader(initialPage: s.startPage),
+                            ),
+                            title: Text(
+                              s.arabic,
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            subtitle: Text(
+                              '${s.english} • p${s.startPage}-${s.endPage}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            trailing: CircleAvatar(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              child: Text(
+                                '${s.index}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onTap: () => _openReader(initialPage: s.startPage),
+                          ),
+                        );
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: quranJuzData.length,
+                      itemBuilder: (ctx, i) {
+                        final juz = quranJuzData[i];
+                        return Card(
+                          child: ListTile(
+                            leading: IconButton(
+                              tooltip: 'افتح',
+                              icon: const Icon(Icons.menu_book_outlined),
+                              onPressed: () =>
+                                  _openReader(initialPage: juz.pageStart),
+                            ),
+                            title: Text(
+                              'الجزء ${juz.juzNumber}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'بداية من الصفحة ${juz.pageStart}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            trailing: CircleAvatar(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              child: Text(
+                                '${juz.juzNumber}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onTap: () =>
+                                _openReader(initialPage: juz.pageStart),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),

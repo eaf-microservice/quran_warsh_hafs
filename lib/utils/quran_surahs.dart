@@ -133,3 +133,11 @@ const List<SurahInfo> kSurahs = [
 
   SurahInfo(115, 'دعاء الختم', 'Doae', 605, 606),
 ];
+
+String getSurahNameForPage(int page) {
+  final surahs = kSurahs
+      .where((s) => page >= s.startPage && page <= s.endPage)
+      .toList();
+  if (surahs.isEmpty) return '';
+  return surahs.map((s) => s.arabic).join(' - ');
+}
