@@ -55,7 +55,7 @@ class AboutMe {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "Developper: $developerName",
+                    "المطور: $developerName",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontSize: 16.0,
                       color: textColor,
@@ -65,7 +65,7 @@ class AboutMe {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Company: $companyName\nSite: $companyDomain\nEmail: $emailCompany\nPhone: $phoneCompany",
+                    "الشركة: $companyName\nالموقع: $companyDomain\nالبريد: $emailCompany\nالهاتف: $phoneCompany",
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontSize: 14.0,
                       color: textColor,
@@ -75,7 +75,7 @@ class AboutMe {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Version: $version',
+                    'النسخة: $version',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyMedium?.copyWith(color: textColor),
